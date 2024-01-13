@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html lang="en">
+<head>
+    <title>Airports</title>
+
+    <script language="javascript" type="text/javascript">
+        var xmlhttp;
+        var airports;
+        
+        function getAirports()
+        {
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = loadData;
+            xmlhttp.open("GET", "airports.php", true);
+            xmlhttp.send();
+        }
+        
+        function loadData()
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                airports = xmlhttp.responseXML.documentElement.getElementsByTagName("airport");
+                // console.log(airports);
+
+                displayData();
+            }
+        }
+        
+        function addToList()
+        {
+            //Get User Values
+            var city = document.getElementById("city").value;
+            var airportName = document.getElementById("airportName").value;
+            var code = document.getElementById("code").value;
+            
+            //Get XML Tree
+            var fullXML = xmlhttp.responseXML;
+            
+            //Create New Elements
+            var newElement = fullXML.createElement("airport");
+            var cityElement = fullXML.createElement("city");
+            var airportNameElement = fullXML.createElement("airportName");
+            var codeElement = fullXML.createElement("code");
+            
+            //Create Text Nodes add user values
+            var cityText = document.createTextNode(city);
+            var airportNameText = document.createTextNode(airportName);
+            var codeText = document.createTextNode(code);
+            
+            //Assemble the element
+            cityElement.appendChild(cityText);
+            airportNameElement.appendChild(airportNameText);
+            codeElement.appendChild(codeText);
+
+            newElement.appendChild(cityElement);
+            newElement.appendChild(airportNameElement);
+            newElement.appendChild(codeElement);
+             
+            //Add the element to the document
+            airports[0].parentNode.appendChild(newElement);
+                        
+            displayData();        
+        }
+        
+        function displayData()
+        {
+            var output = "<table>";
+
+            // heading
+            output += "<tr>"    
+            for (i = 0; i < airports[0].childNodes.length; i++)
+                output += `<th> ${airports[0].childNodes[i].tagName} </th>`
+            output += "</tr>"
+
+            // data
+            for (i = 0; i < airports.length; i++)
+            {              
+                var line = "<tr>";
+                for (j = 0; j < airports[i].childNodes.length; j++)
+                    line += `<td> ${airports[i].childNodes[j].innerHTML} </td>`
+                line += "</tr>";
+                output += line;
+            }
+
+            // user input
+            output += "<tr>"    
+            for (i = 0; i < airports[0].childNodes.length; i++)
+                output += `<td><input type='text' id="${airports[0].childNodes[i].tagName}"/></td>`;
+            output += "</tr>"
+
+            output += "</table>";
+
+            document.getElementById("result").innerHTML = output;        
+        }
+    </script>
+</head>
+<body>
+    <div id="result"></div> <br>
+
+    <input type="button" value="Show Airport List" onclick="getAirports()"/>
+    <input type="button" value="Add To List" onclick="addToList()" />
+</body>
+</html>

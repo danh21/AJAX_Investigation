@@ -1,0 +1,27 @@
+<script>
+    /*
+    var json = {
+                    "firstName" : "Mark",
+                    "lastName"  : "Lassoff",
+                    "company"   : "LearnToProgram"
+                };*/
+
+    var company = {
+                    "employees":
+                    [
+                        { "name" : "John Smith"     , "position" : "president"  },
+                        { "name" : "Mary Johnson"   , "position" : "accountant" },
+                        { "name" : "Fred Mertz"     , "position" : "housekeeper"}  
+                    ]
+                }
+                    
+   // alert("Name: " + company.employees[1].name + "\nPosition: " + company.employees[1].position);
+   // alert(company.employees.length);
+    
+    //alert(json.company);
+    for (var i = 0; i < company.employees.length; i++)
+    {
+        document.write("<br/>Name: " + company.employees[i].name );
+        document.write("<br/>Position: " + company.employees[i].position);
+    }
+</script>

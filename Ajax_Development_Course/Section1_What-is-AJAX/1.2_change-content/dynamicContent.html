@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+
+<html lang="en">
+<head>
+    <title>Dynamic Content</title>
+    <script language="javascript" type="text/javascript">
+        function changeContent()
+        {
+            var theDiv = document.getElementById("content");
+            theDiv.innerHTML = "<h1>Look Ma! Changed Content!</h1>";
+        }
+    </script>
+</head>
+
+<body>
+    <div id='content'>
+        <p>Here is some HTML content</p>
+    </div>
+    <input type="button" value="Change Content" onclick="changeContent()"/>
+</body>
+</html>

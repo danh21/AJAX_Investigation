@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX - DISPLAY SHAPE</title>
+
+    <script language="javascript" type="text/javascript">
+        function drawShape() 
+        {
+            xmlhttp = new XMLHttpRequest()
+            xmlhttp.onreadystatechange = callback
+            
+            rows = document.getElementById("numOfRows").value
+            cols = document.getElementById("numOfCols").value
+
+            
+            /* GET method */
+            url = `drawShape.php?rows=${rows}&cols=${cols}`
+            xmlhttp.open("GET", url)
+            xmlhttp.send()
+
+            /* POST method */
+            // url = "drawShape.php"
+            // xmlhttp.open("POST", url)
+            // xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            // xmlhttp.send(`rows=${rows}&cols=${cols}`)
+        }
+
+        function callback()
+        {
+            document.getElementById("result").innerHTML = xmlhttp.responseText
+        }
+    </script>
+</head>
+<body>
+    <div>
+        Rows:
+        <input type="text" id="numOfRows">
+    </div> <br>
+
+    <div>
+        Columns:
+        <input type="text" id="numOfCols">
+    </div> <br>
+
+    <input type="button" value="Display" onclick="drawShape()"> <br> <br>
+
+    Result: <br>
+    <div id="result"></div>
+</body>
+</html>

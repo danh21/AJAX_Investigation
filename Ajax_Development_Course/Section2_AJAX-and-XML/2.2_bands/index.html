@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html lang="en">
+<head>
+    <title>The Bands</title>
+
+    <script language="javascript" type="text/javascript">
+        var xmlhttp;
+        
+        function getBands()
+        {
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = loadData;
+            xmlhttp.open("GET", "bands.php", true);
+            xmlhttp.send();
+        }
+        
+        function loadData()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                var bands = xmlhttp.responseXML.documentElement.getElementsByTagName("bands");
+                console.log(bands);
+
+                var output = "<table>";
+
+                // heading
+                output += "<tr>"    
+                for (i = 0; i < bands[0].childNodes.length; i++)
+                    output += `<th> ${bands[0].childNodes[i].tagName} </th>`
+                output += "</tr>"
+                
+                // data
+                for (i = 0; i < bands.length; i++)
+                {              
+                    var line = "<tr>";
+                    for (j = 0; j < bands[i].childNodes.length; j++)
+                        line += `<td> ${bands[i].childNodes[j].innerHTML} </td>`
+                    line += "</tr>";
+
+                    output += line;
+                }
+
+                output += "</table>";
+
+                document.getElementById("result").innerHTML = output;
+            }
+        }
+    </script>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <input type="button" value="Get Bands!" onclick="getBands()"/>
+    
+    <div id="result"></div>
+</body>
+</html>

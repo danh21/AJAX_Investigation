@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html lang="en">
+<head>
+    <title>songs</title>
+
+    <script language="javascript" type="text/javascript">
+        var xmlhttp;
+        var songs;
+        
+        function getCatalog()
+        {
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = loadData;
+            xmlhttp.open("GET", "songs.php", true);
+            xmlhttp.send();
+        }
+        
+        function loadData()
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                songs = xmlhttp.responseXML.documentElement.getElementsByTagName("song");
+                console.log(songs);
+                displayData();
+            }
+        }
+        
+        function addToList()
+        {
+            //Get User Values
+            var title = document.getElementById("title").value;
+            var artist = document.getElementById("artist").value;
+            var rating = document.getElementById("rating").value;
+            
+            //Get XML Tree
+            var fullXML = xmlhttp.responseXML;
+            
+            //Create New Elements
+            var newElement = fullXML.createElement("song");
+            var titleElement = fullXML.createElement("title");
+            var artistElement = fullXML.createElement("artist");
+            var ratingElement = fullXML.createElement("rating");
+            
+            //Create Text Nodes add user values
+            var titleText = document.createTextNode(title);
+            var artistText = document.createTextNode(artist);
+            var ratingText = document.createTextNode(rating);
+            
+            //Assemble the element
+            titleElement.appendChild(titleText);
+            artistElement.appendChild(artistText);
+            ratingElement.appendChild(ratingText);
+
+            newElement.appendChild(titleElement);
+            newElement.appendChild(artistElement);
+            newElement.appendChild(ratingElement);
+             
+            //Add the element to the document
+            songs[0].parentNode.appendChild(newElement);
+                        
+            displayData();        
+        }
+        
+        function displayData()
+        {
+            var output = "<table>";
+
+            // heading
+            output += "<tr>"    
+            for (i = 0; i < songs[0].childNodes.length; i++)
+                if (songs[0].childNodes[i].tagName != null)
+                    output += `<th> ${songs[0].childNodes[i].tagName} </th>`
+            output += "</tr>"
+
+            // data
+            for (i = 0; i < songs.length; i++)
+            {              
+                var line = "<tr>";
+                for (j = 0; j < songs[i].childNodes.length; j++)
+                    if (songs[i].childNodes[j].innerHTML != null)
+                        line += `<td> ${songs[i].childNodes[j].innerHTML} </td>`
+                line += "</tr>";
+                output += line;
+            }
+
+            // user input
+            output += "<tr>"    
+            for (i = 0; i < songs[0].childNodes.length; i++)
+                if (songs[0].childNodes[i].tagName != null)
+                    output += `<td><input type='text' id="${songs[0].childNodes[i].tagName}"/></td>`;
+            output += "</tr>"
+
+            output += "</table>";
+            
+            // display result
+            document.getElementById("result").innerHTML = output;        
+        }
+    </script>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        td input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div id="result"></div> <br>
+
+    <input type="button" value="Show List" onclick="getCatalog()"/>
+    <input type="button" value="Add To List" onclick="addToList()" />
+</body>
+</html>

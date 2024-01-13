@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX - RANDOM MESSAGE</title>
+
+    <script language="javascript" type="text/javascript">
+        function genMesg() 
+        {
+            xmlhttp = new XMLHttpRequest()
+            xmlhttp.onreadystatechange = callback
+                     
+            url = "randomMesg.php"
+            xmlhttp.open("GET", url)
+            xmlhttp.send()
+        }
+
+        function callback()
+        {
+            document.getElementById("result").innerHTML = xmlhttp.responseText
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="Display random message" onclick="genMesg()"> <br> <br>
+
+    <div id="result"></div>
+</body>
+</html>

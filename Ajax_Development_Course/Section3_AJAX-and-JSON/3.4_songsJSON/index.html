@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html lang="en">
+<head>
+    <title>CATALOG</title>
+
+    <script language="javascript" type="text/javascript">
+        var xmlhttp, jsonResponseText, jsonResponse, songs;
+        
+        xmlhttp = new XMLHttpRequest();            
+        xmlhttp.onreadystatechange = loadData;            
+        xmlhttp.open("GET", "songJson.php", true);
+        xmlhttp.send();
+        
+        function loadData()
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                jsonResponseText = xmlhttp.responseText;               
+                // console.log(jsonResponseText);
+                jsonResponse = eval("(" + jsonResponseText + ")");  // Javascript recognizes it as JSON
+                displayData();
+            }
+        }    
+
+        function displayData()
+        {
+            // get all songs
+            songs = jsonResponse.catalog.song;
+            // console.log(songs)
+            
+            // heading
+            var output = "<table>";
+            output += "<th>Title</th><th>Artist</th><th>Rating</th>"
+            
+            // body
+            songs.forEach(song => {
+                output += "<tr>";
+                output += `<td>${song.title}</td>`;
+                output += `<td>${song.artist}</td>`;
+                output += `<td>${song.rating}</td>`;
+                output += "</tr>";
+            });
+            
+            // input fields
+            output += "<tr>"    
+            output += `<td><input type='text' placeholder="Enter title of song" id="title"/></td>`;
+            output += `<td><input type='text' placeholder="Enter name of artist" id="artist"/></td>`;
+            output += `<td><input type='text' placeholder="Enter rating" id="rating"/></td>`;
+            output += "</tr>"
+            output += "</table>";
+            
+            // display data
+            document.getElementById("result").innerHTML = output;
+        }
+        
+        function addToList()
+        {
+            // get user value
+            var title = document.getElementById("title").value;
+            var artist = document.getElementById("artist").value;
+            var rating = document.getElementById("rating").value;
+            
+            // create new json obj
+            var newElement = `{"title": "${title}", "artist": "${artist}", "rating": "${rating}"}`
+            var newSong = eval("(" + newElement + ")");
+            // console.log(newElement)
+            
+            // add to songs arr
+            songs.push(newSong);
+
+            displayData();
+        }
+    </script>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        td input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div id="result"></div> <br>
+    <input type="button" value="Add to List" onclick="addToList()" />
+</body>
+</html>
