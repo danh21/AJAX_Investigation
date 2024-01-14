@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+<xsl:template match="/">   
+    <html>
+        <body>
+            <h1>Catalog of Products</h1>
+            <table cellspacing="1">
+                <tr style="background-color: #cccccc">
+                    <th>Product Name</th>
+                    <th>Product Price</th>
+                    <th>Quantity in Stock</th>
+                </tr>
+                <xsl:for-each select="catalog/product">
+                    <!-- ascending sort based on name -->
+                    <!-- <xsl:sort select="name" />
+                        <tr style="background-color: #DD0000">
+                            <td><xsl:value-of select="name"/></td>
+                            <td><xsl:value-of select="price"/></td>
+                            <td><xsl:value-of select="quantity"/></td>
+                        </tr> -->
+                    
+                    <!-- if quantity less than 100 -->
+                    <!-- <xsl:if test="quantity &lt; 100">
+                        <tr style="background-color: #DD0000">
+                            <td><xsl:value-of select="name"/></td>
+                            <td><xsl:value-of select="price"/></td>
+                            <td><xsl:value-of select="quantity"/></td>
+                        </tr>
+                    </xsl:if> -->
+
+                    <!-- if else statements -->
+                    <xsl:choose>
+                        <xsl:when test="quantity &lt; 100">
+                            <tr style="background-color: #DD0000">
+                                <td><xsl:value-of select="name"/></td>
+                                <td><xsl:value-of select="price"/></td>
+                                <td><xsl:value-of select="quantity"/></td>
+                            </tr>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <tr style="background-color: #DEDEDE">
+                                <td><xsl:value-of select="name"/></td>
+                                <td><xsl:value-of select="price"/></td>
+                                <td><xsl:value-of select="quantity"/></td>
+                            </tr>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:for-each>
+            </table>
+        </body>
+    </html>
+</xsl:template>    
+</xsl:stylesheet>
