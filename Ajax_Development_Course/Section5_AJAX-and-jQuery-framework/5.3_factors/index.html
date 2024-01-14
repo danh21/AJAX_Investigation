@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html lang="en">
+<head>
+    <title>Factors of number</title>
+    <script language="javascript" type="text/javascript" src="./node_modules/jquery/dist/jquery.js"></script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(
+            function()
+            {
+                $("#getFactors").click(
+                    function()
+                    {
+                        var contactURL = "factors.php?number=" + $("#Number").val()
+                        $.ajax(
+                            {
+                                url:  contactURL,
+                                success:
+                                    function(result)
+                                    {
+                                        $("#response").html(result);
+                                    },
+                                error:
+                                    function(theError)
+                                    {
+                                        $("#response").html(theError.statusText);
+                                    }
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    </script>
+</head>
+<body>
+    <input type="text" id="Number" placeholder="Enter the number">
+    <input type="button" id="getFactors" value="Display factors"/>
+    <div id="response"></div>
+</body>
+</html>
