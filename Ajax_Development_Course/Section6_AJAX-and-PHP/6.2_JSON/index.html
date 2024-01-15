@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html lang="en">
+<head>
+    <title>PHP Json</title>
+    <script language="javascript" type="text/javascript">
+        var xmlhttp;
+        
+        function getRand()
+        {
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = displayResult;
+            xmlhttp.open("GET", "phpJson.php", true);
+            xmlhttp.send();
+        }
+        
+        function displayResult()
+        {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                var theJSON = eval("(" + xmlhttp.responseText + ")");
+                console.log(theJSON)
+                
+                var output = `Random1 = ${theJSON.random1} <br>`;
+                output += `Random2 = ${theJSON.random2} <br>`;
+                output += `Random3 = ${theJSON.random3} <br>`;
+                output += `Random4 = ${theJSON.random4} <br>`;
+
+                document.getElementById("result").innerHTML = output;
+            }    
+        }     
+    </script>
+</head>
+<body>
+    <input type="button" value="Get Random Numbers" onclick="getRand()" />
+    <div id="result"></div>
+</body>
+</html>
