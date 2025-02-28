@@ -1,7 +1,18 @@
 # Description
-    Investigate about AJAX for Web development via courses.
+    Investigate about AJAX for Web development via course.
 
 # Source
-    AJAX_Development_Course:
-        - Includes sections of course, do exercises
-        - Ref: https://www.udemy.com/course/ajax-development/
+    Includes sections of course, do exercises, demo
+
+# Software
+- WampServer
+- VSCode
+
+# Language
+- HTML
+- PHP
+- XML
+- JSON
+
+# Reference 
+https://www.udemy.com/course/ajax-development/
